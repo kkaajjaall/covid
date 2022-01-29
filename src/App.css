@@ -38,3 +38,13 @@ body {
     font-weight: bold;
     list-style-type: none;
 }
+.contain{
+    background-color: lightgray;
+  }
+  .headding{
+    font-weight: bold;
+  }
+  label{
+    font-weight: bold;
+    font-size: 20px;
+  }
