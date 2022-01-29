@@ -1,6 +1,112 @@
 import React from "react";
+const validEmailRegex = RegExp(
+    /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+  );
+  const validateForm = errors => {
+    let valid = true;
+    Object.values(errors).forEach(val => val.length > 0 && (valid = false));
+    return valid;
+  };
 
-const Form = () => {
+const Form = (props) => {
+    constructor(props) {
+        super(props);
+        this.state = {
+          bussinessName: null,
+          fullName:null,
+          phoneNumber: null,
+          email: null,
+          town: null,
+          GST: null,
+          employees: null,
+          programme: null,
+          errors: {
+            bussinessName: " ",
+            fullName:" ",
+            phoneNumber: " ",
+            email: " ",
+            town: " ",
+            GST: " ",
+            employees: " ",
+            programme: " ",
+          }
+        };
+      }
+  
+    
+      handleChange = (event) => {
+        event.preventDefault();
+        const { name, value } = event.target;
+        let errors = this.state.errors;
+    
+        switch (name) {
+          case 'fullName': 
+            errors.bussinessName = 
+              value.length < 5
+                ? 'Full Name must be at least 5 characters long!'
+                : '';
+            break;
+          case 'email': 
+            errors.fullName = 
+              validEmailRegex.test(value)
+                ? ''
+                : 'Email is not valid!';
+            break;
+          case 'password': 
+            errors.phoneNumber = 
+              value.length < 8
+                ? 'Password must be at least 8 characters long!'
+                : '';
+            break;
+            case 'email': 
+            errors.email = 
+              value.length < 8
+                ? 'email must be at least 8 characters long!'
+                : '';
+            break;
+            case 'town': 
+            errors.town = 
+              value.length < 8
+                ? 'town must be at least 8 characters long!'
+                : '';
+            break;
+            case 'GST': 
+            errors.GST = 
+              value.length < 8
+                ? 'GST must be at least 8 characters long!'
+                : '';
+            break;
+            case 'employees': 
+            errors.employees = 
+              value.length < 8
+                ? 'employees must be at least 8 characters long!'
+                : '';
+            break;
+            case 'programme': 
+            errors.programme = 
+              value.length < 8
+                ? 'programme must be at least 8 characters long!'
+                : '';
+            break;
+          default:
+            break;
+        }
+    
+        this.setState({errors, [name]: value});
+      }
+    
+      handleSubmit = (event) => {
+        event.preventDefault();
+        if(validateForm(this.state.errors)) {
+          console.info('Valid Form')
+        }else{
+          console.error('Invalid Form')
+        }
+      }
+    
+    
+
+    
   return (
     <div>
       <div className="container-fluid form">
@@ -16,102 +122,78 @@ const Form = () => {
 
                 <div className="row my-3">
                   <div className="col-12">
-                    <label for="bussinessName" className="form-label">
+                    <label  className="form-label">
                       Legal Name of The Bussiness
                     </label>
                     <input
                       type="text"
                       className="form-control rounded-pill"
-                      name="bussinessName"
+                      name="bussinessName" onChange={this.handleChange} noValidate
                       id="bussinessName"
                     />
-                    <small
-                      id="bussinessvalid"
-                      className="form-text text-muted invalid-feedback"
-                    >
-                      Your Legal Name of The Bussiness must be 2-20 characters
-                      long and should not start with a number
-                    </small>
+                    {errors.bussinessName.length > 0 && 
+                <span className='error'>{errors.bussinessName}</span>}
                   </div>
                 </div>
                 <div className="row my-3">
                   <div className="col-12">
-                    <label for="fullName" className="form-label">
+                    <label  className="form-label">
                       Your Full Name<span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="text"
                       className="form-control rounded-pill"
-                      name="fullName"
+                      name="fullName" onChange={this.handleChange} noValidate
                       id="fullName"
                     />
-                    <small
-                      id="fullNamevalid"
-                      className="form-text text-muted invalid-feedback"
-                    >
-                      Your Your Full Name must be 2-10 characters long and
-                      should not start with a number
-                    </small>
+                    {errors.fullName.length > 0 && 
+                <span className='error'>{errors.fullName}</span>}
                   </div>
                 </div>
                 <div className="row my-3">
                   <div className="col-12">
-                    <label for="phoneNumber" className="form-label">
+                    <label  className="form-label">
                       Phone Number<span style={{ color: "red" }}>* </span>
                     </label>
                     <input
-                      type="text"
+                      type="text" onChange={this.handleChange} noValidate
                       className="form-control rounded-pill"
                       name="phoneNumber"
                       id="phoneNumber"
                     />
-                    <small
-                      id="phoneNumbervalid"
-                      className="form-text text-muted invalid-feedback"
-                    >
-                      Your Phone Number must be 2-10 characters long
-                    </small>
+                    {errors.phoneNumber.length > 0 && 
+                <span className='error'>{errors.phoneNumber}</span>}
                   </div>
                 </div>
                 <div className="row my-3">
                   <div className="col-12">
-                    <label for="email" className="form-label">
+                    <label className="form-label">
                       Email<span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="email"
                       className="form-control rounded-pill"
-                      name="email"
+                      name="email" onChange={this.handleChange} noValidate
                       id="email"
                     />
-                    <small
-                      id="emailvalid"
-                      className="form-text text-muted invalid-feedback"
-                    >
-                      Your Email must be 2-10 characters long and should not
-                      start with a number
-                    </small>
+                    {errors.email.length > 0 && 
+                <span className='error'>{errors.email}</span>}
                   </div>
                 </div>
                 <div className="row my-3">
                   <div className="col-12">
-                    <label for="town" className="form-label">
+                    <label  className="form-label">
                       Town/City(Your bussiness need to be in Auckland)
                       <span style={{ color: "red" }}>*</span>
                     </label>
                     <input
                       type="text"
                       className="form-control rounded-pill"
-                      name="town"
+                      name="town" onChange={this.handleChange} noValidate
                       id="town"
                     />
-                    <small
-                      id="townvalid"
-                      className="form-text text-muted invalid-feedback"
-                    >
-                      Your Town/City must be 2-20 characters long and should not
-                      start with a number
-                    </small>
+                    {errors.town.length > 0 && 
+                <span className='error'>{errors.town}</span>}
                   </div>
                 </div>
                 <div className="row my-3">
@@ -124,11 +206,11 @@ const Form = () => {
                       <input
                         className="form-check-input"
                         type="radio"
-                        name="GST"
+                        name="GST" 
                         id="GST1"
                         value="GST1"
                       />
-                      <label className="form-check-label" for="yes">
+                      <label className="form-check-label">
                         Yes
                       </label>
                     </div>
@@ -140,7 +222,7 @@ const Form = () => {
                         id="GST2"
                         value="GST2"
                       />
-                      <label className="form-check-label" for="no">
+                      <label className="form-check-label" >
                         No
                       </label>
                     </div>
@@ -152,7 +234,7 @@ const Form = () => {
                         id="GST3"
                         value="GST3"
                       />
-                      <label className="form-check-label" for="notsure">
+                      <label className="form-check-label">
                         Not sure
                       </label>
                     </div>
@@ -173,7 +255,7 @@ const Form = () => {
                       />
                       <label
                         className="form-check-label"
-                        for="flexRadioDefault1"
+                    
                       >
                         No
                       </label>
@@ -188,7 +270,7 @@ const Form = () => {
                       />
                       <label
                         className="form-check-label"
-                        for="flexRadioDefault2"
+                        
                       >
                         Yes,1-50
                       </label>
@@ -199,12 +281,12 @@ const Form = () => {
                         type="radio"
                         name="employees"
                         id="employees2"
-                        checked
+                    
                         value="employees2"
                       />
                       <label
                         className="form-check-label"
-                        for="flexRadioDefault3"
+                        
                       >
                         Yes,51-100
                       </label>
@@ -215,12 +297,12 @@ const Form = () => {
                         type="radio"
                         name="employees"
                         id="employees3"
-                        checked
+                        
                         value="employees3"
                       />
                       <label
                         className="form-check-label"
-                        for="flexRadioDefault4"
+                        
                       >
                         Yes,100+
                       </label>
@@ -243,7 +325,7 @@ const Form = () => {
                       />
                       <label
                         className="form-check-label"
-                        for="flexRadioDefault1"
+        
                       >
                         Yes
                       </label>
@@ -258,7 +340,7 @@ const Form = () => {
                       />
                       <label
                         className="form-check-label"
-                        for="flexRadioDefault1"
+                        
                       >
                         No
                       </label>
@@ -273,7 +355,7 @@ const Form = () => {
                       />
                       <label
                         className="form-check-label"
-                        for="flexRadioDefault2"
+                        
                       >
                         I don't know
                       </label>
